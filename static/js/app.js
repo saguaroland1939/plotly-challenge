@@ -1,18 +1,33 @@
+// This script reads in data.js (will be switched to samples.json), parses data of interest
+// and builds two interactive charts (a horizontal bar chart and a bubble chart). A drop-down menu, implemented in index.html
+// allows the user to select which dataset (individual) to display. Both charts are updated simultaneously with the user's selection.
 
-// Read in json asynchronously with .then.
-//d3.json("data/samples.json", function(data)
-//{
-//    console.log(data);
-//});
+// Keys of interest from dataset:
+// names: list of study participant IDs
+// metadata: demographics for each participant
+// otu_ids: list of OTUs present in a sample (numeric code)
+// otu_labels: list of text labels for each otu found in a sample
+// sample_values: list containing the count associated with each OTU found in a sample
 
-console.log("sdkjfhksdjhfk");
+// Import JavaScript object from data.js
+var results = data;
 
-// Read in json asynchronously with .then.
-sam_dat_promise = d3.json("data/samples.json");
-function sam_dat_fail() {
-    console.log("failed to get sample data json");
-}
-function sam_dat_worked(val)  {
-    console.log(val);
-};
-sam_dat_promise.then(sam_dat_worked, sam_dat_fail);
+// Read in first name from names array
+var nameDefault = results.names[0];
+console.log(nameDefault);
+
+// Select element in index.html where metadata will be appended
+var metadataElement = d3.select("ul");
+
+// Extract values from first metadata object and convert to array
+var metadataDefault = Object.entries(results.metadata[0]);
+metadataDefault.forEach(function([key, value])
+{
+    var metadataItem = metadataElement.append("li");
+    metadataItem.text(`${key}: ${value}`);
+});
+// Function to extract data from results based on user's input
+// function switchDataset(userChoice)
+// {
+
+// }
