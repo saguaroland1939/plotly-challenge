@@ -70,7 +70,7 @@ var traces = [trace];
 var layout = 
 {
     title: `OTU counts for sample ${nameDefault}`,
-    xaxis: {title: "Count"},
+    xaxis: {title: "OTU Count"},
     yaxis: {title: "OTU ID"}
 };
 
@@ -79,18 +79,35 @@ Plotly.newPlot("bar-chart", traces, layout);
 // Plot bubble chart
 
 // Resort combinedLists ascending by OTU IDs
+
+// Combine arrays into array of objects
 var combinedLists2 = []
 for (var i = 0; i < otu_idsDefault.length; i++)
 {
     combinedLists2.push({"otu_idsDefault": otu_idsDefault[i], "measurementsDefault": measurementsDefault[i], "hoverDefault": hoverDefault[i]});
 }
 
+// Sort array of objects acending by OTU IDs
 combinedListsSorted2 = combinedLists2.sort((a, b) => a.otu_idsDefault - b.otu_idsDefault);
 
+// Separate array of objects back into 3 arrays
 var otus2 = combinedListsSorted2.map(x => x.otu_idsDefault);
 var counts2 = combinedListsSorted2.map(x => x.measurementsDefault);
 var hoverValues2 = combinedListsSorted2.map(x => x.hoverDefault);
 
+// Generate array of random colors to be applied to bubbles
+colors = [];
+r = 0;
+g = 0;
+b = 0;
+for (var i = 0; i < otu_idsDefault.length; i++)
+{
+    r = parseInt(Math.random() * 255);
+    g = parseInt(Math.random() * 255);
+    b = parseInt(Math.random() * 255);
+    colors.push(`rgb(${r}, ${g}, ${b})`);
+};
+console.log(colors)
 var trace = 
 {
     x: otus2,
@@ -102,6 +119,7 @@ var trace =
         size: counts2,
         sizeref: 0.1,
         sizemode: "area",
+        color: colors,
         opacity: [0.6]
     },
     text: hoverValues2
@@ -113,7 +131,9 @@ var layout =
 {
     title: `OTU Counts for Sample ${nameDefault}`,
     xaxis: {title: "OTU ID"},
-    yaxis: {title: "Count"}
+    yaxis: {title: "OTU Count"},
+    height: 500,
+    width: 800
 };
 
 Plotly.newPlot("bubble-chart", traces, layout);
