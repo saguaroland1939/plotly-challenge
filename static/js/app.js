@@ -51,18 +51,18 @@ var combinedListsSorted = combinedLists.sort((a, b) => b.measurementsDefault - a
 var top10 = combinedListsSorted.slice(0, 10);
 
 // Separate three arrays for plotting
-var xValues = top10.map(x => x.measurementsDefault);
-var yValues = top10.map(x => x.otu_idsDefaultText);
+var otus = top10.map(x => x.measurementsDefault);
+var counts = top10.map(x => x.otu_idsDefaultText);
 var hoverValues = top10.map(x => x.hoverDefault);
 
-// Plot otu_ids and sample_values as horizontal bar chart
+// Plot horizontal bar chart
 var trace = 
 {
-    x: xValues,
-    y: yValues,
+    x: otus,
+    y: counts,
     type: "bar",
-    orientation: "h",
-    text: hoverValues
+    orientation: "h", // Orient chart horizontally
+    text: hoverValues // Set hovertext
 };
 
 var traces = [trace];
@@ -74,8 +74,49 @@ var layout =
     yaxis: {title: "OTU ID"}
 };
 
-Plotly.newPlot("bar-chart", traces, layout)
+Plotly.newPlot("bar-chart", traces, layout);
 
+// Plot bubble chart
+
+// Resort combinedLists ascending by OTU IDs
+var combinedLists2 = []
+for (var i = 0; i < otu_idsDefault.length; i++)
+{
+    combinedLists2.push({"otu_idsDefault": otu_idsDefault[i], "measurementsDefault": measurementsDefault[i], "hoverDefault": hoverDefault[i]});
+}
+
+combinedListsSorted2 = combinedLists2.sort((a, b) => a.otu_idsDefault - b.otu_idsDefault);
+
+var otus2 = combinedListsSorted2.map(x => x.otu_idsDefault);
+var counts2 = combinedListsSorted2.map(x => x.measurementsDefault);
+var hoverValues2 = combinedListsSorted2.map(x => x.hoverDefault);
+
+var trace = 
+{
+    x: otus2,
+    y: counts2,
+    type: "scatter",
+    mode: "markers",
+    marker:
+    {
+        size: counts2,
+        sizeref: 0.1,
+        sizemode: "area",
+        opacity: [0.6]
+    },
+    text: hoverValues2
+};
+
+var traces = [trace];
+
+var layout =
+{
+    title: `OTU Counts for Sample ${nameDefault}`,
+    xaxis: {title: "OTU ID"},
+    yaxis: {title: "Count"}
+};
+
+Plotly.newPlot("bubble-chart", traces, layout);
 
 // Function to extract data from results based on user's input
 // function switchDataset(userChoice)
