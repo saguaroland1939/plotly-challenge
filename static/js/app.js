@@ -149,14 +149,22 @@ Plotly.newPlot("bubble-chart", traces, layout);
 // Function to extract data from results based on user's input
 function optionChanged(userChoice)
 {
+    // Delete current contents of metadata pane
+    d3.selectAll("li").remove();
+
     // Get user choice from drop-down menu
     var inputElement = d3.select("select");
     var inputValue = inputElement.property("value");
 
-    // Get the array index for inputValue in the names array. This will be used to extract all data for that inputValue.
+    // Get the array index for inputValue in the participants array.
+    // Because all data is sorted identically, this index will be used to extract all data for that inputValue.
+    var inputIndex = participants.indexOf(inputValue);
     
     // Extract appropriate values from metadata object and convert to array
-    var metadataDefault = Object.entries(results.metadata[inputValue]);
+    var metadataDefault = Object.entries(results.metadata[inputIndex]);
+
+    // Replace contents of metadata pane with new contents based on user selection
+
     metadataDefault.forEach(function([key, value])
     {
         var metadataItem = metadataElement.append("li");
