@@ -23,7 +23,11 @@
       <div class="col-md-2">
         <div class="well">
           <h5>Test Subject ID No.:</h5>
-          <select id="selDataset" onchange="optionChanged(this.value)"></select>
+          <!-- Make the currently selected value available using "onchange=...this.value" 
+            and call optionChanged function in app.js whenevener there is a change -->
+          <select id="selDataset" onchange="optionChanged(this.value)">
+            
+          </select>
         </div>
 
         <!-- Demographic Info (metadata) -->

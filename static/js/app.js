@@ -12,7 +12,15 @@
 // Import JavaScript object from data.js
 var results = data;
 
-// Read in first name from names array. Will be used in drop-down menu.
+// Select menu element from DOM and append array of participants as menu options
+var menuElement = d3.select("select");
+var participants = results.names;
+participants.forEach((participant) =>
+{
+    menuElement.append("option").text(participant);
+});
+
+// Read in first name from names array for default plots
 var nameDefault = results.names[0];
 
 // Select element in index.html where metadata will be appended
@@ -107,7 +115,7 @@ for (var i = 0; i < otu_idsDefault.length; i++)
     b = parseInt(Math.random() * 255);
     colors.push(`rgb(${r}, ${g}, ${b})`);
 };
-console.log(colors)
+
 var trace = 
 {
     x: otus2,
@@ -139,7 +147,19 @@ var layout =
 Plotly.newPlot("bubble-chart", traces, layout);
 
 // Function to extract data from results based on user's input
-// function switchDataset(userChoice)
-// {
+function optionChanged(userChoice)
+{
+    // Get user choice from drop-down menu
+    var inputElement = d3.select("select");
+    var inputValue = inputElement.property("value");
 
-// }
+    // Get the array index for inputValue in the names array. This will be used to extract all data for that inputValue.
+    
+    // Extract appropriate values from metadata object and convert to array
+    var metadataDefault = Object.entries(results.metadata[inputValue]);
+    metadataDefault.forEach(function([key, value])
+    {
+        var metadataItem = metadataElement.append("li");
+        metadataItem.text(`${key}: ${value}`);
+    });
+}
