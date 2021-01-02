@@ -160,14 +160,130 @@ function optionChanged(userChoice)
     // Because all data is sorted identically, this index will be used to extract all data for that inputValue.
     var inputIndex = participants.indexOf(inputValue);
     
-    // Extract appropriate values from metadata object and convert to array
-    var metadataDefault = Object.entries(results.metadata[inputIndex]);
+    // Extract appropriate data based on inputIndex
+    var name = results.names[inputIndex];
 
-    // Replace contents of metadata pane with new contents based on user selection
+    var metadata = Object.entries(results.metadata[inputIndex]);
 
-    metadataDefault.forEach(function([key, value])
+    var otu_ids = results.samples[inputIndex].otu_ids;
+    var otu_idsText = otu_ids.map(x => `OTU-${x}`);
+
+    var measurements = results.samples[inputIndex].sample_values;
+
+    var hoverText = results.samples[inputIndex].otu_labels;
+
+
+    // Populate metadata pane with new contents based on user selection
+    metadata.forEach(function([key, value])
     {
         var metadataItem = metadataElement.append("li");
         metadataItem.text(`${key}: ${value}`);
     });
-}
+
+    // Combine otu_idsDefaultText, measurementsDefault, and hoverDefault arrays into an array of objects so
+    // they can be sorted simultaneously
+    var combinedLists = [];
+    for (var i = 0; i < otu_idsText.length; i++)
+    {
+        combinedLists.push({"otu_idsText": otu_idsText[i], "measurementsDefault": measurements[i], "hoverDefault": hoverText[i]});
+    }
+
+    // Sort the array of objects descending by measurementsDefault
+    var combinedListsSorted = combinedLists.sort((a, b) => b.measurements - a.measurements);
+
+    // Extract top 10 from sorted list
+    var top10 = combinedListsSorted.slice(0, 10);
+
+    // Separate three arrays for plotting
+    var otus = top10.map(x => x.measurements);
+    var counts = top10.map(x => x.otu_idsText);
+    var hoverValues = top10.map(x => x.hoverText);
+
+    // Plot horizontal bar chart
+    var trace = 
+    {
+        x: otus,
+        y: counts,
+        type: "bar",
+        orientation: "h", // Orient chart horizontally
+        text: hoverValues // Set hovertext
+    };
+
+    var traces = [trace];
+
+    var layout = 
+    {
+        title: `OTU counts for sample ${name}`,
+        xaxis: {title: "OTU Count"},
+        yaxis: {title: "OTU ID"}
+    };
+
+    Plotly.newPlot("bar-chart", traces, layout);
+
+    // Plot bubble chart
+
+    // Resort combinedLists ascending by OTU IDs
+
+    // Combine arrays into array of objects
+    var combinedLists2 = []
+    for (var i = 0; i < otu_idsDefault.length; i++)
+    {
+        combinedLists2.push({"otu_ids": otu_ids[i], "measurements": measurements[i], "hoverText": hoverText[i]});
+    }
+
+    // Sort array of objects acending by OTU IDs
+    combinedListsSorted2 = combinedLists2.sort((a, b) => a.otu_ids - b.otu_ids);
+
+    // Separate array of objects back into 3 arrays
+    var otus2 = combinedListsSorted2.map(x => x.otu_ids);
+    var counts2 = combinedListsSorted2.map(x => x.measurements);
+    var hoverValues2 = combinedListsSorted2.map(x => x.hover);
+
+    // Generate array of random colors to be applied to bubbles
+    colors = [];
+    r = 0;
+    g = 0;
+    b = 0;
+    
+    for (var i = 0; i < otu_ids.length; i++)
+    {
+        r = parseInt(Math.random() * 255);
+        g = parseInt(Math.random() * 255);
+        b = parseInt(Math.random() * 255);
+        colors.push(`rgb(${r}, ${g}, ${b})`);
+    };
+    
+    // Specify trace object
+    var trace = 
+    {
+        x: otus2,
+        y: counts2,
+        type: "scatter",
+        mode: "markers",
+        marker:
+        {
+            size: counts2,
+            sizeref: 0.1,
+            sizemode: "area",
+            color: colors,
+            opacity: [0.6]
+        },
+        text: hoverValues2
+    };
+
+    // Add trace object to array
+    var traces = [trace];
+
+    // Specify layout
+    var layout =
+    {
+        title: `OTU Counts for Sample ${name}`,
+        xaxis: {title: "OTU ID"},
+        yaxis: {title: "OTU Count"},
+        height: 500,
+        width: 800
+    };
+
+    Plotly.newPlot("bubble-chart", traces, layout);
+
+};
