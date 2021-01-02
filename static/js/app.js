@@ -185,7 +185,7 @@ function optionChanged(userChoice)
     var combinedLists = [];
     for (var i = 0; i < otu_idsText.length; i++)
     {
-        combinedLists.push({"otu_idsText": otu_idsText[i], "measurementsDefault": measurements[i], "hoverDefault": hoverText[i]});
+        combinedLists.push({"otu_idsText": otu_idsText[i], "measurements": measurements[i], "hoverText": hoverText[i]});
     }
 
     // Sort the array of objects descending by measurementsDefault
