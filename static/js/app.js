@@ -77,9 +77,13 @@ var traces = [trace];
 
 var layout = 
 {
-    title: `OTU counts for sample ${nameDefault}`,
+    title: `OTU Counts for Sample ${nameDefault}`,
     xaxis: {title: "OTU Count"},
-    yaxis: {title: "OTU ID"}
+    yaxis: 
+    {
+        title: "OTU ID",
+        tickfont: { size: 8}
+    }
 };
 
 Plotly.newPlot("bar-chart", traces, layout);
@@ -253,7 +257,7 @@ function optionChanged(userChoice)
         colors.push(`rgb(${r}, ${g}, ${b})`);
     };
     
-    // Specify trace object
+    // Create trace object
     var trace = 
     {
         x: otus2,
@@ -271,10 +275,10 @@ function optionChanged(userChoice)
         text: hoverValues2
     };
 
-    // Add trace object to array
+    // Convert trace object to array for plotting
     var traces = [trace];
 
-    // Specify layout
+    // Specify plot layout
     var layout =
     {
         title: `OTU Counts for Sample ${name}`,
