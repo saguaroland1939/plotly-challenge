@@ -77,6 +77,7 @@ var traces = [trace];
 
 var layout = 
 {
+    height: 500, // Height is explicitly set to align charts
     title: `OTU Counts for Sample ${nameDefault}`,
     xaxis: {title: "OTU Count"},
     yaxis: 
@@ -141,6 +142,7 @@ var traces = [trace];
 
 var layout =
 {
+    height: 500, // Height is explicitly set to align charts
     title: `OTU Counts for Sample ${nameDefault}`,
     xaxis: {title: "OTU ID"},
     yaxis: {title: "OTU Count"},
@@ -217,9 +219,14 @@ function optionChanged(userChoice)
 
     var layout = 
     {
+        height: 500, // Height is explicitly set to align charts
         title: `OTU counts for sample ${name}`,
         xaxis: {title: "OTU Count"},
-        yaxis: {title: "OTU ID"}
+        yaxis: 
+        {
+            title: "OTU ID",
+            tickfont: { size: 8}
+        }
     };
 
     Plotly.newPlot("bar-chart", traces, layout);
@@ -281,6 +288,7 @@ function optionChanged(userChoice)
     // Specify plot layout
     var layout =
     {
+        height: 500, // Height is explicitly set to align charts
         title: `OTU Counts for Sample ${name}`,
         xaxis: {title: "OTU ID"},
         yaxis: {title: "OTU Count"},
