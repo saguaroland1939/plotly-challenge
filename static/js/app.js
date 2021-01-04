@@ -78,7 +78,7 @@ var traces = [trace];
 var layout = 
 {
     height: 500, // Height is explicitly set to align charts
-    title: `OTU Counts for Sample ${nameDefault}`,
+    title: `Top 10 OTU Counts for Sample ${nameDefault}`,
     xaxis: {title: "OTU Count"},
     yaxis: 
     {
@@ -143,7 +143,7 @@ var traces = [trace];
 var layout =
 {
     height: 500, // Height is explicitly set to align charts
-    title: `OTU Counts for Sample ${nameDefault}`,
+    title: `All OTU Counts for Sample ${nameDefault}`,
     xaxis: {title: "OTU ID"},
     yaxis: {title: "OTU Count"},
     height: 500,
@@ -220,7 +220,7 @@ function optionChanged(userChoice)
     var layout = 
     {
         height: 500, // Height is explicitly set to align charts
-        title: `OTU counts for sample ${name}`,
+        title: `Top 10 OTU counts for sample ${name}`,
         xaxis: {title: "OTU Count"},
         yaxis: 
         {
@@ -289,7 +289,7 @@ function optionChanged(userChoice)
     var layout =
     {
         height: 500, // Height is explicitly set to align charts
-        title: `OTU Counts for Sample ${name}`,
+        title: `All OTU Counts for Sample ${name}`,
         xaxis: {title: "OTU ID"},
         yaxis: {title: "OTU Count"},
         height: 500,
@@ -297,5 +297,4 @@ function optionChanged(userChoice)
     };
 
     Plotly.newPlot("bubble-chart", traces, layout);
-
 };

@@ -1,69 +1,30 @@
-# This Flask app runs index.html to render two charts to the browser.
+# This Flask app has two routes. The first route calls index.html to render the web page.
+# The second route reads in a json data file and returns that file to app.js when called.
+# The second route is needed because app.js must access the json via a URL to get around the CORS restriction.
 
 # Import dependencies
-from models import create_classes
 import os
-from flask import (
-    Flask,
-    render_template,
-    jsonify,
-    request,
-    redirect)
-from waitress import serve
+import json
+from flask import Flask
+from flask import render_template
+#from waitress import serve
 
-#################################################
-# Flask Setup
-#################################################
+# Flask object instance
 app = Flask(__name__)
 
-# create route that renders index.html template
+# Root route
 @app.route("/")
-def home():
+def render():
     return render_template("index.html")
 
-
-# Query the database and send the jsonified results
-@app.route("/send", methods=["GET", "POST"])
-def send():
-    if request.method == "POST":
-        name = request.form["petName"]
-        lat = request.form["petLat"]
-        lon = request.form["petLon"]
-
-        pet = Pet(name=name, lat=lat, lon=lon)
-        db.session.add(pet)
-        db.session.commit()
-        return redirect("/", code=302)
-
-    return render_template("form.html")
-
-
-@app.route("/api/pals")
-def pals():
-    results = db.session.query(Pet.name, Pet.lat, Pet.lon).all()
-
-    hover_text = [result[0] for result in results]
-    lat = [result[1] for result in results]
-    lon = [result[2] for result in results]
-
-    pet_data = [{
-        "type": "scattergeo",
-        "locationmode": "USA-states",
-        "lat": lat,
-        "lon": lon,
-        "text": hover_text,
-        "hoverinfo": "text",
-        "marker": {
-            "size": 50,
-            "line": {
-                "color": "rgb(8,8,8)",
-                "width": 1
-            },
-        }
-    }]
-
-    return jsonify(pet_data)
-
+# Data route
+@app.route("/data")
+def data():
+    with open("data/samples.json") as file:
+        data = json.load(file)
+    print(data)
+    return data
 
 if __name__ == "__main__":
-    serve(app)
+    #serve(app)
+    app.run(debug=True)
