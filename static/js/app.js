@@ -11,7 +11,7 @@
 // sample_values: list containing the count associated with each OTU found in a sample
 
 // Import JavaScript object from samples.json and draw default plots
-d3.json("../../data/samples.json").then((data) => {
+d3.json("/data").then((data) => {
     var results = data;
     // Select menu element from DOM and append array of participants as menu options
     var menuElement = d3.select("select");
@@ -153,7 +153,7 @@ d3.json("../../data/samples.json").then((data) => {
 
 function optionChanged(userChoice) {
     // Read in json each time menu selection changes
-    d3.json("../../data/samples.json").then((data) => {
+    d3.json("/data").then((data) => {
         var results = data;
         // Delete current contents of metadata pane
         d3.selectAll("li").remove();

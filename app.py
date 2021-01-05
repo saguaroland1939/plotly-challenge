@@ -22,7 +22,6 @@ def render():
 def data():
     with open("data/samples.json") as file:
         data = json.load(file)
-    print(data)
     return data
 
 if __name__ == "__main__":
