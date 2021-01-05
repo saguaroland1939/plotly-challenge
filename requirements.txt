@@ -1,8 +1,2 @@
 Flask==1.1.2
-json5==0.9.5
-jsonschema==3.2.0
-py @ file:///tmp/build/80754af9/py_1593446248552/work
-python-dateutil==2.8.1
-python-jsonrpc-server @ file:///tmp/build/80754af9/python-jsonrpc-server_1594397536060/work
-python-language-server @ file:///C:/ci/python-language-server_1594162130238/work
 waitress==1.4.4
