@@ -1,6 +1,6 @@
-// This script reads in a data file (samples.json), parses data of interest,
-// and builds two interactive charts (a horizontal bar chart and a bubble chart). A drop-down menu, implemented in index.html
-// allows the user to select which dataset (individual) to display. Both charts as well as a list of subject metadata are updated 
+// This script reads in the samples.json data file via the /data endpoint in app.py, parses data of interest,
+// and builds two interactive charts (a horizontal bar chart and a bubble chart) and a metadata list. A drop-down menu implemented in index.html
+// allows the user to select which dataset (individual) to display. Both charts as well as the list of subject metadata are updated 
 // simultaneously with the user's selection.
 
 // Keys of interest from dataset:
