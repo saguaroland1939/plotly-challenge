@@ -6,6 +6,7 @@
 import json
 from flask import Flask
 from flask import render_template
+from waitress import serve # production web server
 
 # Flask object instance
 app = Flask(__name__)
@@ -23,4 +24,4 @@ def data():
     return data
 
 if __name__ == "__main__":
-    app.run(debug=True, port=80)
+    serve(app) # Serve app with Waitress
