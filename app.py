@@ -3,11 +3,9 @@
 # The second route is needed because app.js must access the json via a URL to get around the CORS restriction.
 
 # Import dependencies
-import os
 import json
 from flask import Flask
 from flask import render_template
-#from waitress import serve
 
 # Flask object instance
 app = Flask(__name__)
@@ -25,5 +23,4 @@ def data():
     return data
 
 if __name__ == "__main__":
-    #serve(app)
     app.run(debug=True)
